@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 11:43:17 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/01 21:49:54 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/02 13:24:36 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_bzero(void *s, size_t n)
 	}
 }
 
-char	*ft_strnjoin(char const *s1, char const *s2, size_t cnt)
+char	*ft_strnjoin(char const *s1, char const *s2, ssize_t len)
 {
 	size_t	s1_len;
 	size_t	s2_len;
@@ -43,7 +43,7 @@ char	*ft_strnjoin(char const *s1, char const *s2, size_t cnt)
 	size_t	idx;
 
 	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
+	s2_len = len;
 	joined = (char *)malloc(s1_len + s2_len + 1);
 	if (joined == NULL)
 		return (NULL);
@@ -53,7 +53,7 @@ char	*ft_strnjoin(char const *s1, char const *s2, size_t cnt)
 		joined[idx++] = *s1++;
 		s1_len--;
 	}
-	while (s2_len - cnt > 0)
+	while (s2_len > 0)
 	{
 		joined[idx++] = *s2++;
 		s2_len--;
@@ -62,7 +62,7 @@ char	*ft_strnjoin(char const *s1, char const *s2, size_t cnt)
 	return (joined);
 }
 
-void	ft_memmovei(void *src, size_t idx, size_t len)
+void	ft_memmovei(void *src, size_t idx, ssize_t len)
 {
 	unsigned char		*tmp_dst;
 	const unsigned char	*tmp_src;
@@ -81,12 +81,18 @@ void	ft_memmovei(void *src, size_t idx, size_t len)
 	ft_bzero(src + init_len - idx, idx);
 }
 
-int	ft_isinnl(char *buffer, size_t len)
+size_t	ft_isinnl(char *buffer, ssize_t len)
 {
+	size_t	idx;
+
+	idx = 0;
 	while (len > 0)
 	{
-		if (buffer == 10)
-			return (1);
+		if (*buffer == 10)
+			break;
+		len--;
+		idx++;
+		buffer++;
 	}
-	return (0);
+	return (idx);
 }
