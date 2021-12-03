@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 11:43:17 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/02 13:24:36 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/03 21:31:15 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,7 @@ size_t	ft_strlen(const char *s)
 	return (idx);
 }
 
-void	ft_bzero(void *s, size_t n)
-{
-	unsigned char	*temp;
-
-	temp = (unsigned char *)s;
-	while (n > 0)
-	{
-		*temp = 0;
-		temp++;
-		n--;
-	}
-}
-
-char	*ft_strnjoin(char const *s1, char const *s2, ssize_t len)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
 	size_t	s1_len;
 	size_t	s2_len;
@@ -43,7 +30,7 @@ char	*ft_strnjoin(char const *s1, char const *s2, ssize_t len)
 	size_t	idx;
 
 	s1_len = ft_strlen(s1);
-	s2_len = len;
+	s2_len = ft_strlen(s2);
 	joined = (char *)malloc(s1_len + s2_len + 1);
 	if (joined == NULL)
 		return (NULL);
@@ -62,28 +49,55 @@ char	*ft_strnjoin(char const *s1, char const *s2, ssize_t len)
 	return (joined);
 }
 
-void	ft_memmovei(void *src, size_t idx, ssize_t len)
+char	*ft_strdup(const char *s1)
 {
-	unsigned char		*tmp_dst;
-	const unsigned char	*tmp_src;
-	size_t				init_len;
+	char	*copied;
+	size_t	size;
+	size_t	idx;
 
-	if (src == NULL)
-		return ;
-	init_len = len;
-	tmp_dst = (unsigned char *)src;
-	tmp_src = (const unsigned char *)(src + idx);
-	while (len - idx  > 0)
-	{
-		*tmp_dst++ = *tmp_src++;
-		len--;
-	}
-	ft_bzero(src + init_len - idx, idx);
+	size = ft_strlen(s1);
+	copied = (char *)malloc(size + 1);
+	if (copied == NULL)
+		return (NULL);
+	idx = 0;
+	while (size > idx)
+		copied[idx++] = *s1++;
+	copied[idx] = '\0';
+	return (copied);
 }
 
-size_t	ft_isinnl(char *buffer, ssize_t len)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
+	char	*sub;
+	size_t	str_len;
 	size_t	idx;
+
+	str_len = ft_strlen(s);
+	if ((str_len - start) < len && str_len > start)
+		len = str_len - start;
+	else if (str_len <= start)
+		len = 0;
+	sub = (char *)malloc(len + 1);
+	if (sub == NULL)
+		return (NULL);
+	if (start >= str_len)
+	{
+		*sub = '\0';
+		return (sub);
+	}
+	idx = 0;
+	while (s[start] != '\0' && len > 0)
+	{
+		sub[idx++] = s[start++];
+		len--;
+	}
+	sub[idx] = '\0';
+	return (sub);
+}
+
+int	ft_isinnl(char *buffer, size_t len)
+{
+	int	idx;
 
 	idx = 0;
 	while (len > 0)
