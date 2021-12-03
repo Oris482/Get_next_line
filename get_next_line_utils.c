@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 11:43:17 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/03 21:31:15 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/04 02:24:23 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,11 @@ size_t	ft_strlen(const char *s)
 	size_t	idx;
 
 	idx = 0;
-	while (*s++ != '\0')
+	while (*s != '\0')
+	{
 		idx++;
+		s++;
+	}
 	return (idx);
 }
 
@@ -103,10 +106,10 @@ int	ft_isinnl(char *buffer, size_t len)
 	while (len > 0)
 	{
 		if (*buffer == 10)
-			break;
+			return (idx);
 		len--;
 		idx++;
 		buffer++;
 	}
-	return (idx);
+	return (-1);
 }
