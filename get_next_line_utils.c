@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 11:43:17 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/04 02:24:23 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/05 21:06:43 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,18 +98,30 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (sub);
 }
 
-int	ft_isinnl(char *buffer, size_t len)
+int	ft_isinnl(int fd, char *buffer, char **disk, ssize_t len)
 {
 	int	idx;
 
 	idx = 0;
-	while (len > 0)
+	if (len != 0)
 	{
-		if (*buffer == 10)
-			return (idx);
-		len--;
-		idx++;
-		buffer++;
+		while (len-- > 0)
+		{
+			if (*buffer == 10)
+				return (idx);
+			idx++;
+			buffer++;
+		}
+	}
+	else
+	{
+		len = ft_strlen(disk[fd]);
+		while (len-- > 0)
+		{
+			if (disk[fd][idx] == 10)
+				return (idx);
+			idx++;
+		}
 	}
 	return (-1);
 }
