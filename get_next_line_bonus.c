@@ -6,11 +6,11 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 11:42:53 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/06 15:25:56 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/06 20:52:21 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+#include "get_next_line.h"
 
 int	initialize(int fd, char **disk)
 {
@@ -53,12 +53,13 @@ char	*make_line(int fd, char **disk, ssize_t len)
 char	*get_next_line(int fd)
 {
 	static char	*disk[OPEN_MAX];
-	char		buffer[BUFFER_SIZE + 1];
+	char		*buffer;
 	char		*joined;
 	ssize_t		len;
 
 	if (fd < 0 || fd > OPEN_MAX || BUFFER_SIZE < 1)
 		return (NULL);
+	buffer = (char *)malloc(BUFFER_SIZE + 1);
 	len = read(fd, buffer, BUFFER_SIZE);
 	while (len > 0)
 	{
@@ -74,5 +75,6 @@ char	*get_next_line(int fd)
 			break ;
 		len = read(fd, buffer, BUFFER_SIZE);
 	}
+	free(buffer);
 	return (make_line(fd, disk, len));
 }

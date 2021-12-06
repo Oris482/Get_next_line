@@ -15,8 +15,6 @@ int	main(void)
 		printf("%s", s1);
 		free(s1);
 	}
-	while (1)
-	{
-	}	
+	system("leaks a.out > leaks_result_temp; cat leaks_result_temp | grep leaked && rm -rf leaks_result_temp");
 	return (0);
 }
