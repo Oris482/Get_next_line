@@ -11,7 +11,9 @@ int	main(void)
 	while (s1)
 	{
 		s1 = get_next_line(fd);
-		printf("%s\n", s1);
+//		s1 = get next_line(1);
+		printf("%s", s1);
 	}
+	
 	return (0);
 }
