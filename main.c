@@ -7,6 +7,8 @@ int	main(void)
 	int		fd;
 	char	*s1;
 
+	s1 = ft_strdup("");
+	free(s1);
 	fd = open("./test.txt", O_RDONLY);
 	while (s1)
 	{
