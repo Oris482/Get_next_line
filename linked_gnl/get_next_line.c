@@ -6,19 +6,28 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 11:42:53 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/08 23:42:35 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/09 00:20:17 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
-void	ft_lstdelone(t_list **lst)
+void	ft_lstdelone(t_list *lst)
 {
-	if (*lst == NULL)
+	char	*cont_tmp;
+	t_list	*lst_tmp;
+
+	if (lst == NULL)
 		return ;
-	(*lst)->cont = NULL;
-	free((*lst)->cont);
-	(*lst) = (*lst)->next;
+	printf("deleting...%s | %p\n", lst->cont, lst->cont);
+	cont_tmp = lst->cont;
+	lst->cont = NULL;
+	free(cont_tmp);
+	printf("deleted! %s | %p by %p\n", lst->cont, cont_tmp, lst->cont);
+	lst_tmp = lst;
+	lst = lst->next;
+	free(lst_tmp);
 }
 
 char	*makelst(int fd, t_list **head, char *buffer)
@@ -38,6 +47,7 @@ char	*makelst(int fd, t_list **head, char *buffer)
 		cur = cur->next;
 	}
 	node = (t_list *)malloc(sizeof(t_list));
+	printf("new node! %s | %p\n", node->cont, node);
 	if (node == NULL)
 		return (NULL);
 	node->myfd = fd;
@@ -67,14 +77,14 @@ char	*make_line(int fd, t_list *cur, char *buffer)
 		}
 		if (cur->cont == NULL || *(cur->cont) == '\0')
 		{
-			ft_lstdelone(&cur);
+			ft_lstdelone(cur);
 			return (NULL);
 		}
 	}
 	if (ft_isinnl(cur) == -1)
 	{
 		ret = ft_strdup(cur->cont);
-		ft_lstdelone(&cur);
+		ft_lstdelone(cur);
 	}
 	else
 	{

@@ -39,6 +39,6 @@ int	main(void)
 	s1 = get_next_line(fd3);
 	printf("%s", s1);
 	free(s1);
-//	system("leaks a.out | grep -i leak | grep -v Tool");
+	system("leaks a.out | grep -i leak | grep -v Tool");
 	return (0);
 }
