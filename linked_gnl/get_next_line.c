@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 11:42:53 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/08 18:32:54 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/08 23:42:35 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	ft_lstdelone(t_list **lst)
 {
 	if (*lst == NULL)
 		return ;
-	free((*lst)->cont);
 	(*lst)->cont = NULL;
+	free((*lst)->cont);
 	(*lst) = (*lst)->next;
 }
 
@@ -107,7 +107,7 @@ char	*get_next_line(int fd)
 		head =  node;
 	}
 	ret = makelst(fd, &head, buffer);
-	free(buffer);
 	*buffer = '\0';
+	free(buffer);
 	return (ret);
 }
