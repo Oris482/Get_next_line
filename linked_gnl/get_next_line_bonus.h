@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 11:43:27 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/08 18:31:52 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/08 14:45:13 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ char	*ft_strdup(const char *s1);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_isinnl(t_list *cur_lst);
 
+void	ft_lstdelone(t_list *lst);
+void	ft_lstclear(t_list **lst);
+char	*makelst(int fd, t_list **head, char *buffer);
 char	*make_line(int fd, t_list *cur, char *buffer);
 char	*get_next_line(int fd);
 

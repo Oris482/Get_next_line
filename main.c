@@ -12,11 +12,11 @@ int	main(void)
 	fd = open("./test.txt", O_RDONLY);
 	while (s1)
 	{
-		s1 = get_next_line(fd);
-//		s1 = get next_line(1);
+//		s1 = get_next_line(fd);
+		s1 = get_next_line(1);
 		printf("%s", s1);
 		free(s1);
 	}
-	system("leaks a.out > leaks_result_temp; cat leaks_result_temp | grep leaked && rm -rf leaks_result_temp");
+//	system("leaks a.out > leaks_result_temp; cat leaks_result_temp | grep leaked && rm -rf leaks_result_temp");
 	return (0);
 }
