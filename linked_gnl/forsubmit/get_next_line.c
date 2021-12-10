@@ -6,11 +6,12 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 11:42:53 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/10 17:31:29 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/10 21:29:58 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 void	ft_lstdelone(t_list *lst)
 {
@@ -23,14 +24,15 @@ void	ft_lstdelone(t_list *lst)
 		free(cont_tmp);
 		lst->cont = NULL;
 	}
-	lst_tmp = lst;
 	if (lst->next == NULL)
 	{
-		free (lst_tmp);
-		lst->cont = NULL;
+		free (lst);
+		lst = NULL;
 	}
 	else
 	{
+		lst_tmp = lst;
+		printf("lst(%p) = lst->next(%p)\n", lst, lst->next);
 		lst = lst->next;
 		free(lst_tmp);
 		lst->cont = NULL;
