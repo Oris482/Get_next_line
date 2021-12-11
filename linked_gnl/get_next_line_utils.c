@@ -6,11 +6,11 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 11:43:17 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/11 13:07:08 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/11 17:50:26 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+#include "get_next_line.h"
 
 size_t	ft_strlen(const char *s)
 {

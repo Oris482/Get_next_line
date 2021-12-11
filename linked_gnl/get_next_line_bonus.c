@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/28 11:42:53 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/11 13:07:00 by jaesjeon         ###   ########.fr       */
+/*   Created: 2021/12/11 17:49:15 by jaesjeon          #+#    #+#             */
+/*   Updated: 2021/12/11 18:44:33 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	buffer = (char *)malloc(BUFFER_SIZE + 1);
+	if (buffer == NULL)
+		return (NULL);
 	if (head == NULL)
 	{
 		head = (t_list *)malloc(sizeof(t_list));
@@ -128,7 +130,6 @@ char	*get_next_line(int fd)
 		head = head->next;
 	else if (head->cont == NULL)
 		head = NULL;
-	*buffer = '\0';
 	free(buffer);
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 11:42:53 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/11 13:01:37 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/11 18:42:42 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	buffer = (char *)malloc(BUFFER_SIZE + 1);
+	if (buffer == NULL)
+		return (NULL);
 	if (head == NULL)
 	{
 		head = (t_list *)malloc(sizeof(t_list));
@@ -128,7 +130,6 @@ char	*get_next_line(int fd)
 		head = head->next;
 	else if (head->cont == NULL)
 		head = NULL;
-	*buffer = '\0';
 	free(buffer);
 	return (ret);
 }
