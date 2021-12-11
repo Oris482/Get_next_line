@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 11:42:53 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/11 18:42:42 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/11 18:54:29 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 void	gft_lstdelone(t_list *lst, t_list *prev)
 {
-	t_list	*lst_tmp;
-
-	lst_tmp = lst;
 	if (lst->cont != NULL)
 	{
 		free(lst->cont);
@@ -24,9 +21,7 @@ void	gft_lstdelone(t_list *lst, t_list *prev)
 	}
 	if (prev != NULL)
 		prev->next = lst->next;
-	else
-		lst = lst->next;
-	free(lst_tmp);
+	free(lst);
 }
 
 char	*makelst(int fd, t_list **head, char *buffer)
@@ -77,9 +72,11 @@ int	read_line(int fd, t_list *cur, t_list *prev, char *buffer)
 		if (cur->cont == NULL || *(cur->cont) == '\0')
 		{
 			gft_lstdelone(cur, prev);
+			*buffer = '\0';
 			return (-1);
 		}
 	}
+	*buffer = '\0';
 	return (0);
 }
 
