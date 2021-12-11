@@ -6,63 +6,42 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 11:42:53 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/10 21:29:58 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/08 15:04:42 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 void	ft_lstdelone(t_list *lst)
 {
-	char	*cont_tmp;
-	t_list	*lst_tmp;
-
-	if (lst->cont != NULL)
-	{
-		cont_tmp = lst->cont;
-		free(cont_tmp);
-		lst->cont = NULL;
-	}
-	if (lst->next == NULL)
-	{
-		free (lst);
-		lst = NULL;
-	}
-	else
-	{
-		lst_tmp = lst;
-		printf("lst(%p) = lst->next(%p)\n", lst, lst->next);
-		lst = lst->next;
-		free(lst_tmp);
-		lst->cont = NULL;
-	}
+	if (lst == NULL)
+		return ;
+	free(lst->cont);
+	lst->cont = NULL;
+	lst = lst->next;
 }
 
 char	*makelst(int fd, t_list **head, char *buffer)
 {
 	t_list	*node;
-	t_list	*cur;
 
-	cur = *head;
-	if (cur->myfd == fd)
-		return (make_line(fd, cur, buffer));
-	while (cur != NULL)
+	if (*head == NULL)
 	{
-		if (cur->myfd == fd)
-			return (make_line(fd, cur, buffer));
-		if (cur->next == NULL)
-			break ;
-		cur = cur->next;
+		node = (t_list *)malloc(sizeof(t_list));
+		if (node == NULL)
+			return (NULL);
+		node->myfd = fd;
+		node->next = NULL;
+		node->cont = NULL;
+		*head = node;
 	}
-	node = (t_list *)malloc(sizeof(t_list));
-	if (node == NULL)
-		return (NULL);
-	node->myfd = fd;
-	node->next = NULL;
-	node->cont = NULL;
-	cur->next = node;
-	return (make_line(fd, node, buffer));
+	while ((*head)->next != NULL)
+	{
+		if ((*head)->myfd == fd)
+			return (make_line(fd, *head, buffer));
+		*head = (*head)->next;
+	}
+	return (make_line(fd, *head, buffer));
 }
 
 char	*make_line(int fd, t_list *cur, char *buffer)
@@ -92,6 +71,7 @@ char	*make_line(int fd, t_list *cur, char *buffer)
 	if (ft_isinnl(cur) == -1)
 	{
 		ret = ft_strdup(cur->cont);
+		tmp = ft_strdup("");
 		ft_lstdelone(cur);
 	}
 	else
@@ -99,8 +79,8 @@ char	*make_line(int fd, t_list *cur, char *buffer)
 		ret = ft_substr(cur->cont, 0, ft_isinnl(cur) + 1);
 		tmp = ft_substr(cur->cont, ft_isinnl(cur) + 1, ft_strlen(cur->cont));
 		free(cur->cont);
-		cur->cont = tmp;
 	}
+	cur->cont = tmp;
 	return (ret);
 }
 
@@ -110,24 +90,10 @@ char	*get_next_line(int fd)
 	char			*ret;
 	char			*buffer;
 
-	if (fd < 0 || BUFFER_SIZE < 1)
+	if (fd < 0 || fd >= OPEN_MAX || BUFFER_SIZE < 1)
 		return (NULL);
 	buffer = (char *)malloc(BUFFER_SIZE + 1);
-	if (head == NULL)
-	{
-		head = (t_list *)malloc(sizeof(t_list));
-		if (head == NULL)
-			return (NULL);
-		head->myfd = fd;
-		head->next = NULL;
-		head->cont = NULL;
-	}
 	ret = makelst(fd, &head, buffer);
-	if (head->cont == NULL && head->next != NULL)
-		head = head->next;
-	else if (head->cont == NULL)
-		head = NULL;
-	*buffer = '\0';
 	free(buffer);
 	return (ret);
 }

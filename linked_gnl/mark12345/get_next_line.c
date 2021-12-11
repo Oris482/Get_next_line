@@ -6,63 +6,85 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 11:42:53 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/11 13:07:00 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/10 17:13:20 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+#include "get_next_line.h"
+#include <stdio.h>
 
-void	gft_lstdelone(t_list *lst, t_list *prev)
+void	ft_lstdelone(t_list *lst)
 {
+	printf("------func : lstdelone------\n");
+	char	*cont_tmp;
 	t_list	*lst_tmp;
 
-	lst_tmp = lst;
 	if (lst->cont != NULL)
 	{
-		free(lst->cont);
+		printf("deleting...%s | %p\n", lst->cont, lst->cont);
+		cont_tmp = lst->cont;
+		free(cont_tmp);
+		lst->cont = NULL;
+		printf("deleted! %s | %p by %p\n", lst->cont, cont_tmp, lst->cont);
+	}
+	lst_tmp = lst;
+	if (lst->next == NULL)
+	{
+		printf("sturct freeing : %p\n", lst);
+		free (lst_tmp);
+		lst->cont = NULL;
+		printf("sturct free : %p, freed : %p\n", lst, lst_tmp);
+	}
+	else
+	{
+		printf("lst->next : %p\n", lst->next);
+		printf("lst(origin) : %p\n", lst);
+		lst = lst->next;
+		printf("lst(stitched) : %p, freeing : %p\n", lst, lst_tmp);
+		free(lst_tmp);
 		lst->cont = NULL;
 	}
-	if (prev != NULL)
-		prev->next = lst->next;
-	else
-		lst = lst->next;
-	free(lst_tmp);
 }
 
 char	*makelst(int fd, t_list **head, char *buffer)
 {
+	printf("------func : makelst------\n");
 	t_list	*node;
-	t_list	*prev;
 	t_list	*cur;
 
 	cur = *head;
-	prev = NULL;
+	printf("head->cont : %p, cur->cont : %p\n", (*head)->cont, cur->cont);
+	printf("cur : %p\n", cur);
+	printf("cur->myfd : %d\n", cur->myfd);
 	if (cur->myfd == fd)
-		return (make_line(fd, cur, prev, buffer));
+		return (make_line(fd, cur, buffer));
 	while (cur != NULL)
 	{
-		prev = cur;
 		if (cur->myfd == fd)
-			return (make_line(fd, cur, prev, buffer));
+			return (make_line(fd, cur, buffer));
 		if (cur->next == NULL)
 			break ;
 		cur = cur->next;
 	}
 	node = (t_list *)malloc(sizeof(t_list));
+	printf("new node! %s | %p\n", node->cont, node);
 	if (node == NULL)
 		return (NULL);
 	node->myfd = fd;
 	node->next = NULL;
 	node->cont = NULL;
 	cur->next = node;
-	return (make_line(fd, node, prev, buffer));
+	return (make_line(fd, node, buffer));
 }
 
-int	read_line(int fd, t_list *cur, t_list *prev, char *buffer)
+char	*make_line(int fd, t_list *cur, char *buffer)
 {
-	char		*tmp;
-	ssize_t		len;
+	printf("------func : make_line------\n");
+	char			*ret;
+	char			*tmp;
+	ssize_t			len;
 
+	printf("(ml_init)cur->cont : %p\n", cur->cont);
 	if (cur->cont == NULL || ft_isinnl(cur) == -1)
 	{
 		while (ft_isinnl(cur) == -1)
@@ -71,29 +93,21 @@ int	read_line(int fd, t_list *cur, t_list *prev, char *buffer)
 			if (len < 1)
 				break ;
 			buffer[len] = '\0';
-			tmp = gft_strjoin(cur->cont, buffer);
+			tmp = ft_strjoin(cur->cont, buffer);
+			free(cur->cont);
 			cur->cont = tmp;
 		}
 		if (cur->cont == NULL || *(cur->cont) == '\0')
 		{
-			gft_lstdelone(cur, prev);
-			return (-1);
+			ft_lstdelone(cur);
+			printf("(ml)cur->cont : %p\n", cur->cont);
+			return (NULL);
 		}
 	}
-	return (0);
-}
-
-char	*make_line(int fd, t_list *cur, t_list *prev, char *buffer)
-{
-	char			*ret;
-	char			*tmp;
-
-	if (read_line(fd, cur, prev, buffer) == -1)
-		return (NULL);
 	if (ft_isinnl(cur) == -1)
 	{
 		ret = ft_strdup(cur->cont);
-		gft_lstdelone(cur, prev);
+		ft_lstdelone(cur);
 	}
 	else
 	{
@@ -102,32 +116,44 @@ char	*make_line(int fd, t_list *cur, t_list *prev, char *buffer)
 		free(cur->cont);
 		cur->cont = tmp;
 	}
+	printf("(ml)cur->cont : %p\n", cur->cont);
 	return (ret);
 }
 
 char	*get_next_line(int fd)
 {
+	printf("------func : gnl------\n");
 	static t_list	*head;
+	t_list			*node;
 	char			*ret;
 	char			*buffer;
 
-	if (fd < 0 || BUFFER_SIZE < 1)
+	if (fd < 0 || fd >= OPEN_MAX || BUFFER_SIZE < 1)
 		return (NULL);
 	buffer = (char *)malloc(BUFFER_SIZE + 1);
 	if (head == NULL)
 	{
-		head = (t_list *)malloc(sizeof(t_list));
-		if (head == NULL)
+		node = (t_list *)malloc(sizeof(t_list));
+		printf("head node! : %p\n", node);
+		if (node == NULL)
 			return (NULL);
-		head->myfd = fd;
-		head->next = NULL;
-		head->cont = NULL;
+		node->myfd = fd;
+		printf("head->myfd : %d\n", node->myfd);
+		node->next = NULL;
+		node->cont = NULL;
+		head = node;
+		printf("head complete : %p\n", head);
 	}
+	printf("head->cont : %p\n", head->cont);
 	ret = makelst(fd, &head, buffer);
-	if (head->cont == NULL && head->next != NULL)
-		head = head->next;
-	else if (head->cont == NULL)
-		head = NULL;
+	printf("head->cont : %p\n", head->cont);
+	if (head->cont == NULL)
+	{
+		if(head->next != NULL)
+			head = head->next;
+		else
+			head = NULL;
+	}
 	*buffer = '\0';
 	free(buffer);
 	return (ret);

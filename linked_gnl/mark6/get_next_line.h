@@ -6,12 +6,12 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 11:43:27 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/11 13:22:22 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/11 13:22:32 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_BONUS_H
-# define GET_NEXT_LINE_BONUS_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
 # include <unistd.h>
 # include <stdlib.h>

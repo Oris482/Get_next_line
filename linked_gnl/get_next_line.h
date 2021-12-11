@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 11:43:27 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/10 16:49:08 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/11 13:22:15 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,7 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# include <limits.h>
 
-# ifndef OPEN_MAX
-#  define OPEN_MAX 256
-
-# endif
 typedef struct s_list
 {
 	char			*cont;
@@ -29,12 +24,15 @@ typedef struct s_list
 }	t_list;
 
 size_t	ft_strlen(const char *s);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*gft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(const char *s1);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_isinnl(t_list *cur_lst);
 
-char	*make_line(int fd, t_list *cur, char *buffer);
+void	gft_lstdelone(t_list *lst, t_list *prev);
+char	*makelst(int fd, t_list **head, char *buffer);
+int		read_line(int fd, t_list *cur, t_list *prev, char *buffer);
+char	*make_line(int fd, t_list *cur, t_list *prev, char *buffer);
 char	*get_next_line(int fd);
 
 #endif
