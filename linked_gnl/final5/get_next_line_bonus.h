@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 18:57:37 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/13 20:33:38 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/16 02:23:16 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ typedef struct s_list
 {
 	char			*cont;
 	int				myfd;
+	struct s_list	*prev;
 	struct s_list	*next;
 }	t_list;
 

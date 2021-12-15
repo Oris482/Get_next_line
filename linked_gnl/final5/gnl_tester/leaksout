@@ -1,23 +1,27 @@
-Process:         a.out [11537]
-Path:            /Volumes/VOLUME/*/a.out
-Load Address:    0x10aca9000
+Target process is an ancestor and permitting live process for ancestors so not generating a corpse to save resources by default.
+Process 30159 is not debuggable. Due to security restrictions, leaks can only show or save contents of readonly memory of restricted processes.
+
+Process:         a.out [30159]
+Path:            /Users/USER/Desktop/*/a.out
+Load Address:    0x104914000
 Identifier:      a.out
 Version:         ???
-Code Type:       X86-64
-Parent Process:  zsh [4009]
+Code Type:       ARM64
+Platform:        macOS
+Parent Process:  zsh [27932]
 
-Date/Time:       2021-12-15 16:59:18.876 +0900
-Launch Time:     2021-12-15 16:59:18.519 +0900
-OS Version:      Mac OS X 10.15.7 (19H1615)
+Date/Time:       2021-12-16 02:48:55.475 +0900
+Launch Time:     2021-12-16 02:48:55.222 +0900
+OS Version:      macOS 12.1 (21C52)
 Report Version:  7
 Analysis Tool:   /Applications/Xcode.app/Contents/Developer/usr/bin/leaks
-Analysis Tool Version:  Xcode 12.3 (12C33)
+Analysis Tool Version:  Xcode 13.2 (13C90)
 
-Physical footprint:         320K
-Physical footprint (peak):  320K
+Physical footprint:         945K
+Physical footprint (peak):  945K
 ----
 
 leaks Report Version: 4.0
-Process 11537: 156 nodes malloced for 12 KB
-Process 11537: 0 leaks for 0 total leaked bytes.
+Process 30159: 208 nodes malloced for 16 KB
+Process 30159: 0 leaks for 0 total leaked bytes.
 

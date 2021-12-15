@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 17:49:41 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/11 17:49:52 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/16 02:09:26 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	ft_isinnl(t_list *cur)
 		return (-1);
 	while ((cur->cont)[idx])
 	{
-		if ((cur->cont)[idx] == 10)
+		if ((cur->cont)[idx] == '\n')
 			return (idx);
 		idx++;
 	}
