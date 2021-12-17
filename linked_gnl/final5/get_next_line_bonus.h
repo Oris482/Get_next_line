@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
+/*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/12 18:57:37 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/13 20:33:38 by jaesjeon         ###   ########.fr       */
+/*   Created: 2021/12/17 15:41:53 by jaesjeon          #+#    #+#             */
+/*   Updated: 2021/12/17 15:53:01 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,15 @@ typedef struct s_list
 {
 	char			*cont;
 	int				myfd;
+	struct s_list	*prev;
 	struct s_list	*next;
 }	t_list;
 
-size_t	ft_strlen(const char *s);
+size_t	gft_strlen(const char *s);
 char	*gft_strjoin(char const *s1, char const *s2);
-char	*ft_strdup(const char *s1);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-int		ft_isinnl(t_list *cur_lst);
+char	*gft_substr(char const *s, unsigned int start, size_t len);
+int		gft_isinnl(t_list *cur_lst);
+t_list	*gft_lstnew(int fd);
 
 char	*get_next_line(int fd);
 
