@@ -1,17 +1,17 @@
 Target process is an ancestor and permitting live process for ancestors so not generating a corpse to save resources by default.
-Process 57981 is not debuggable. Due to security restrictions, leaks can only show or save contents of readonly memory of restricted processes.
+Process 68350 is not debuggable. Due to security restrictions, leaks can only show or save contents of readonly memory of restricted processes.
 
-Process:         a.out [57981]
+Process:         a.out [68350]
 Path:            /Users/USER/Desktop/*/a.out
-Load Address:    0x100b7c000
+Load Address:    0x104cbc000
 Identifier:      a.out
 Version:         ???
 Code Type:       ARM64
 Platform:        macOS
-Parent Process:  bash [57743]
+Parent Process:  zsh [68114]
 
-Date/Time:       2021-12-17 15:53:33.994 +0900
-Launch Time:     2021-12-17 15:53:33.700 +0900
+Date/Time:       2021-12-17 17:26:51.721 +0900
+Launch Time:     2021-12-17 17:26:51.418 +0900
 OS Version:      macOS 12.1 (21C52)
 Report Version:  7
 Analysis Tool:   /Applications/Xcode.app/Contents/Developer/usr/bin/leaks
@@ -22,6 +22,6 @@ Physical footprint (peak):  1073K
 ----
 
 leaks Report Version: 4.0
-Process 57981: 208 nodes malloced for 16 KB
-Process 57981: 0 leaks for 0 total leaked bytes.
+Process 68350: 208 nodes malloced for 16 KB
+Process 68350: 0 leaks for 0 total leaked bytes.
 

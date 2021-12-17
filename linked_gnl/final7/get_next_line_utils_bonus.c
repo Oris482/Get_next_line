@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
+/*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/28 11:43:17 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/17 15:52:14 by jaesjeon         ###   ########.fr       */
+/*   Created: 2021/12/17 15:42:29 by jaesjeon          #+#    #+#             */
+/*   Updated: 2021/12/17 16:45:58 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	gft_strlen(const char *s)
 {

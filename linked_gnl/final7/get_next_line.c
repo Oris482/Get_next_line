@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/17 15:41:33 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/17 15:41:39 by jaesjeon         ###   ########.fr       */
+/*   Created: 2021/11/28 11:42:53 by jaesjeon          #+#    #+#             */
+/*   Updated: 2021/12/17 17:09:09 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+#include "get_next_line.h"
 
 static void	gft_lstdelone(t_list *lst)
 {
@@ -80,6 +80,8 @@ static char	*make_line(int fd, t_list *cur)
 		tmp = gft_substr(cur->cont, gft_isinnl(cur) + 1, gft_strlen(cur->cont));
 		free(cur->cont);
 		cur->cont = tmp;
+		if (*tmp == '\0')
+			gft_lstdelone(cur);
 	}
 	return (ret);
 }

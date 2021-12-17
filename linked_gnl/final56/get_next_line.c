@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 11:42:53 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/17 15:39:51 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/17 17:09:09 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ static char	*make_line(int fd, t_list *cur)
 		tmp = gft_substr(cur->cont, gft_isinnl(cur) + 1, gft_strlen(cur->cont));
 		free(cur->cont);
 		cur->cont = tmp;
+		if (*tmp == '\0')
+			gft_lstdelone(cur);
 	}
 	return (ret);
 }
