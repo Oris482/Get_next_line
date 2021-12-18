@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <fcntl.h>
-#include <string.h>
 #include "get_next_line.h"
 
 int	main(void)
 {
+	int		fd;
 	char	*s1;
 
-	s1 = strdup("");
+	s1 = ft_strdup("");
 	free(s1);
 	while (s1)
 	{
