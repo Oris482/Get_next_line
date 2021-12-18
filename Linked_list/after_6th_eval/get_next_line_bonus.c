@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 11:42:53 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/18 14:06:52 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/19 01:03:14 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static void	gft_lstdelone(t_list *lst)
 {
@@ -35,7 +35,6 @@ static void	gft_lstdelone(t_list *lst)
 
 static int	read_line(int fd, t_list *cur)
 {
-	char		*tmp;
 	ssize_t		len;
 	char		*buffer;
 
@@ -48,14 +47,17 @@ static int	read_line(int fd, t_list *cur)
 		if (len <= 0)
 			break ;
 		buffer[len] = '\0';
-		tmp = gft_strjoin(cur->cont, buffer);
-		cur->cont = tmp;
-		if (gft_isinnl(cur) != -1)
+		cur->cont = gft_strjoin(cur->cont, buffer, len);
+		if (cur->cont == NULL)
+			return (-1);
+		cur->nlidx = gft_isinnl(cur->cont);
+		if (cur->nlidx != -1)
 			break ;
 	}
 	free(buffer);
-	if (cur->cont == NULL || len < 0 || *(cur->cont) == '\0')
+	if (cur->cont == NULL || *(cur->cont) == '\0' || len < 0)
 		return (-1);
+	cur->length = gft_strlen(cur->cont);
 	return (0);
 }
 
@@ -69,20 +71,22 @@ static char	*make_line(int fd, t_list *cur)
 		gft_lstdelone(cur);
 		return (NULL);
 	}
-	if (gft_isinnl(cur) == -1)
-	{
-		ret = gft_substr(cur->cont, 0, gft_strlen(cur->cont));
-		gft_lstdelone(cur);
-	}
+	if (cur->nlidx == -1)
+		ret = gft_substr(cur->cont, 0, cur->length);
 	else
+		ret = gft_substr(cur->cont, 0, cur->nlidx + 1);
+	if (ret == NULL)
 	{
-		ret = gft_substr(cur->cont, 0, gft_isinnl(cur) + 1);
-		tmp = gft_substr(cur->cont, gft_isinnl(cur) + 1, gft_strlen(cur->cont));
-		free(cur->cont);
-		cur->cont = tmp;
-		if (*tmp == '\0')
-			gft_lstdelone(cur);
+		gft_lstdelone(cur);
+		return (NULL);
 	}
+	tmp = gft_substr(cur->cont, gft_strlen(ret), cur->length);
+	free(cur->cont);
+	cur->cont = tmp;
+	cur->nlidx = gft_isinnl(cur->cont);
+	cur->length = gft_strlen(cur->cont);
+	if (tmp == NULL || *tmp == '\0')
+		gft_lstdelone(cur);
 	return (ret);
 }
 
@@ -92,8 +96,6 @@ static char	*makelst(int fd, t_list **head)
 	t_list	*cur;
 
 	cur = *head;
-	if (cur->myfd == fd)
-		return (make_line(fd, cur));
 	while (cur != NULL)
 	{
 		if (cur->myfd == fd)

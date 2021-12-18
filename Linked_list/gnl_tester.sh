@@ -6,7 +6,7 @@ echo -e "\033[32;1m"gnlTester"\033[m"
 read $a
 git clone https://github.com/Tripouille/gnlTester.git
 cd gnlTester/
-make a
+make b
 cd ..
 echo -e "\033[32;1m"gnl_difflen_multi_fd_Tester"\033[m"
 read $a

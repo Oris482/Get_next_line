@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 11:43:17 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/17 16:46:32 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/19 00:27:32 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,13 @@ size_t	gft_strlen(const char *s)
 	return (idx);
 }
 
-char	*gft_strjoin(char const *s1, char const *s2)
+char	*gft_strjoin(char const *s1, char const *s2, ssize_t s2_len)
 {
 	size_t	s1_len;
-	size_t	s2_len;
 	char	*joined;
 	size_t	idx;
 
 	s1_len = gft_strlen(s1);
-	s2_len = gft_strlen(s2);
 	joined = (char *)malloc(s1_len + s2_len + 1);
 	if (joined == NULL)
 		return (NULL);
@@ -82,16 +80,16 @@ char	*gft_substr(char const *s, unsigned int start, size_t len)
 	return (sub);
 }
 
-int	gft_isinnl(t_list *cur)
+int	gft_isinnl(char *cont)
 {
 	int	idx;
 
 	idx = 0;
-	if (cur->cont == NULL)
+	if (cont == NULL)
 		return (-1);
-	while ((cur->cont)[idx])
+	while (cont[idx])
 	{
-		if ((cur->cont)[idx] == '\n')
+		if (cont[idx] == '\n')
 			return (idx);
 		idx++;
 	}
@@ -107,6 +105,8 @@ t_list	*gft_lstnew(int fd)
 		return (NULL);
 	node->myfd = fd;
 	node->cont = NULL;
+	node->length = 0;
+	node->nlidx = -1;
 	node->prev = NULL;
 	node->next = NULL;
 	return (node);
