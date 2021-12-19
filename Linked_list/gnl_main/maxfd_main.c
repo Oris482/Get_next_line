@@ -20,7 +20,7 @@ int	main(int argc, char **argv)
 			fd[idx - 3] = open(argv[1], O_RDONLY);
 			s1 = get_next_line(fd[idx - 3]);
 			if (fd[idx - 3] == idx && !strcmp(s1, "heyyy"))
-				printf("%d ", idx - 2);
+				printf("%d ", idx);
 			free(s1);
 			idx++;
 		}

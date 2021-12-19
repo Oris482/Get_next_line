@@ -64,6 +64,6 @@ int	main(int argc, char **argv)
 		} while (s1 || s2 || s3);
 	}
 	printf("\n\n======= test end =========\n\n");
-	system("leaks a.out | grep -i leak | grep -v Tool");
+//	system("leaks a.out | grep -i leak | grep -v Tool");
 	return (0);
 }
