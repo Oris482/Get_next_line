@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 20:42:11 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/23 20:21:08 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/23 23:16:10 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*get_next_line(int fd)
 	t_list		*head;
 	ssize_t		len;
 
+	if (fd < 0 || fd >= MAX_FD)
+		return (NULL);
 	if (disk[fd] == NULL)
 	{
 		disk[fd] = (char *)malloc(BUFFER_SIZE + 1);
@@ -33,11 +35,8 @@ char	*get_next_line(int fd)
 		disk[fd][len] = '\0';
 	}
 	head = make_llst(fd, disk[fd], &len);
-	if (head == NULL || disk[fd] == NULL || *disk[fd] == '\0')
-	{
-		free(disk[fd]);
-		disk[fd] = NULL;
-	}
+	if (head == NULL || *disk[fd] == '\0')
+		remove_disk(&disk[fd]);
 	return (make_line(head, &len));
 }
 
@@ -54,6 +53,7 @@ t_list	*make_llst(int fd, char *disk_fd, ssize_t *len)
 	if (nl_idx == -1)
 	{
 		cur_len = read(fd, disk_fd, BUFFER_SIZE);
+		disk_fd[cur_len] = '\0';
 		if (cur_len < 0)
 			return (NULL);
 		else if (cur_len == 0)
@@ -65,8 +65,6 @@ t_list	*make_llst(int fd, char *disk_fd, ssize_t *len)
 	}
 	if (nl_idx != -1)
 		copy_content(disk_fd, NULL, nl_idx);
-	else
-		disk_fd[0] = '\0';
 	return (node);
 }
 
@@ -94,4 +92,10 @@ char	*make_line(t_list *head, ssize_t *len)
 	}
 	*line = '\0';
 	return (init_line);
+}
+
+void	remove_disk(char **disk_fd)
+{
+	free(*disk_fd);
+	disk_fd = NULL;
 }
