@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 20:42:11 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/23 23:16:10 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/26 18:00:37 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ char	*get_next_line(int fd)
 	}
 	head = make_llst(fd, disk[fd], &len);
 	if (head == NULL || *disk[fd] == '\0')
-		remove_disk(&disk[fd]);
+	{
+		free(disk[fd]);
+		disk[fd] = NULL;
+	}
 	return (make_line(head, &len));
 }
 
@@ -92,10 +95,4 @@ char	*make_line(t_list *head, ssize_t *len)
 	}
 	*line = '\0';
 	return (init_line);
-}
-
-void	remove_disk(char **disk_fd)
-{
-	free(*disk_fd);
-	disk_fd = NULL;
 }
