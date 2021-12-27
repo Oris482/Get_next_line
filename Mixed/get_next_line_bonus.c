@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaesjeon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/21 20:42:11 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/23 20:21:36 by jaesjeon         ###   ########.fr       */
+/*   Created: 2021/12/27 20:16:50 by jaesjeon          #+#    #+#             */
+/*   Updated: 2021/12/27 20:58:05 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*get_next_line(int fd)
 	t_list		*head;
 	ssize_t		len;
 
+	if (fd < 0 || fd >= MAX_FD)
+		return (NULL);
 	if (disk[fd] == NULL)
 	{
 		disk[fd] = (char *)malloc(BUFFER_SIZE + 1);
@@ -33,12 +35,7 @@ char	*get_next_line(int fd)
 		disk[fd][len] = '\0';
 	}
 	head = make_llst(fd, disk[fd], &len);
-	if (head == NULL || disk[fd] == NULL || *disk[fd] == '\0')
-	{
-		free(disk[fd]);
-		disk[fd] = NULL;
-	}
-	return (make_line(head, &len));
+	return (make_line(&head, &len, &disk[fd]));
 }
 
 t_list	*make_llst(int fd, char *disk_fd, ssize_t *len)
@@ -54,6 +51,7 @@ t_list	*make_llst(int fd, char *disk_fd, ssize_t *len)
 	if (nl_idx == -1)
 	{
 		cur_len = read(fd, disk_fd, BUFFER_SIZE);
+		disk_fd[cur_len] = '\0';
 		if (cur_len < 0)
 			return (NULL);
 		else if (cur_len == 0)
@@ -65,33 +63,44 @@ t_list	*make_llst(int fd, char *disk_fd, ssize_t *len)
 	}
 	if (nl_idx != -1)
 		copy_content(disk_fd, NULL, nl_idx);
-	else
-		disk_fd[0] = '\0';
 	return (node);
 }
 
-char	*make_line(t_list *head, ssize_t *len)
+char	*make_line(t_list **head, ssize_t *len, char **disk_fd)
 {
 	char	*line;
 	char	*init_line;
 	char	*tmp_content;
 	t_list	*tmp;
 
+	if (**disk_fd == '\0' && *disk_fd != NULL)
+	{
+		free(*disk_fd);
+		*disk_fd = NULL;
+	}
 	line = (char *)malloc(*len + 1);
 	if (line == NULL)
 		return (NULL);
 	init_line = line;
-	while (head != NULL)
+	while (*head != NULL)
 	{
-		tmp = head;
-		tmp_content = head->content;
-		while (*(head->content) != '\0')
-			*line++ = *(head->content)++;
-		free (tmp_content);
-		head->content = NULL;
-		head = head->next;
+		tmp = *head;
+		tmp_content = (*head)->content;
+		while (*((*head)->content) != '\0')
+			*line++ = *((*head)->content)++;
+		ft_dellst(head);
 		free (tmp);
 	}
 	*line = '\0';
 	return (init_line);
+}
+
+void	ft_dellst(t_list **target)
+{
+	t_list	*lst;
+
+	lst = *target;
+	free(lst->content);
+	lst->content = NULL;
+	lst = lst->next;
 }
