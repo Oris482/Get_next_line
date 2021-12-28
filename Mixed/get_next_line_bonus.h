@@ -6,7 +6,7 @@
 /*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 20:42:22 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/27 20:56:00 by jaesjeon         ###   ########.fr       */
+/*   Updated: 2021/12/28 19:42:12 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	del_lst(t_list **lst);
 
 t_list	*make_llst(int fd, char *disk_fd, ssize_t *len);
 char	*make_line(t_list **head, ssize_t *len, char **disk_fd);
-void	ft_dellst(t_list **target);
+void	ft_dellst(t_list *target, char *content);
 char	*get_next_line(int fd);
 
 #endif

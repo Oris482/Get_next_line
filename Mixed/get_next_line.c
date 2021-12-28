@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaesjeon <jaesjeon@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaesjeon <jaesjeon@student.42seoul.k       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/21 20:42:11 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/26 18:00:37 by jaesjeon         ###   ########.fr       */
+/*   Created: 2021/12/28 19:51:00 by jaesjeon          #+#    #+#             */
+/*   Updated: 2021/12/28 19:51:02 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,7 @@ char	*get_next_line(int fd)
 		disk[fd][len] = '\0';
 	}
 	head = make_llst(fd, disk[fd], &len);
-	if (head == NULL || *disk[fd] == '\0')
-	{
-		free(disk[fd]);
-		disk[fd] = NULL;
-	}
-	return (make_line(head, &len));
+	return (make_line(&head, &len, &disk[fd]));
 }
 
 t_list	*make_llst(int fd, char *disk_fd, ssize_t *len)
@@ -71,28 +66,38 @@ t_list	*make_llst(int fd, char *disk_fd, ssize_t *len)
 	return (node);
 }
 
-char	*make_line(t_list *head, ssize_t *len)
+char	*make_line(t_list **head, ssize_t *len, char **disk_fd)
 {
 	char	*line;
 	char	*init_line;
 	char	*tmp_content;
 	t_list	*tmp;
 
+	if (**disk_fd == '\0' && *disk_fd != NULL)
+	{
+		free(*disk_fd);
+		*disk_fd = NULL;
+	}
 	line = (char *)malloc(*len + 1);
 	if (line == NULL)
 		return (NULL);
 	init_line = line;
-	while (head != NULL)
+	while (*head != NULL)
 	{
-		tmp = head;
-		tmp_content = head->content;
-		while (*(head->content) != '\0')
-			*line++ = *(head->content)++;
-		free (tmp_content);
-		head->content = NULL;
-		head = head->next;
-		free (tmp);
+		tmp = *head;
+		tmp_content = tmp->content;
+		while (*(tmp->content) != '\0')
+			*line++ = *(tmp->content)++;
+		*head = (*head)->next;
+		ft_dellst(tmp, tmp_content);
 	}
 	*line = '\0';
 	return (init_line);
+}
+
+void	ft_dellst(t_list *target, char *content)
+{
+	free(content);
+	target->content = NULL;
+	free(target);
 }

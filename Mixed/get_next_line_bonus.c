@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaesjeon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaesjeon <jaesjeon@student.42seoul.k       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/27 20:16:50 by jaesjeon          #+#    #+#             */
-/*   Updated: 2021/12/27 20:58:05 by jaesjeon         ###   ########.fr       */
+/*   Created: 2021/12/28 19:50:16 by jaesjeon          #+#    #+#             */
+/*   Updated: 2021/12/28 19:50:21 by jaesjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,22 +85,19 @@ char	*make_line(t_list **head, ssize_t *len, char **disk_fd)
 	while (*head != NULL)
 	{
 		tmp = *head;
-		tmp_content = (*head)->content;
-		while (*((*head)->content) != '\0')
-			*line++ = *((*head)->content)++;
-		ft_dellst(head);
-		free (tmp);
+		tmp_content = tmp->content;
+		while (*(tmp->content) != '\0')
+			*line++ = *(tmp->content)++;
+		*head = (*head)->next;
+		ft_dellst(tmp, tmp_content);
 	}
 	*line = '\0';
 	return (init_line);
 }
 
-void	ft_dellst(t_list **target)
+void	ft_dellst(t_list *target, char *content)
 {
-	t_list	*lst;
-
-	lst = *target;
-	free(lst->content);
-	lst->content = NULL;
-	lst = lst->next;
+	free(content);
+	target->content = NULL;
+	free(target);
 }
